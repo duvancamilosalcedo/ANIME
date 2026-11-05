@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ANIME VAULT | Glass Tracker &amp; Randomizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #050711;
+      --glass-panel: rgba(14, 20, 40, 0.62);
+      --glass-panel-hover: rgba(22, 32, 64, 0.75);
+      --glass-card: rgba(18, 26, 52, 0.55);
+      --glass-card-hover: rgba(26, 38, 76, 0.78);
+      --glass-border: rgba(255, 255, 255, 0.09);
+      --glass-border-glow: rgba(0, 240, 255, 0.45);
+      --cyan-neon: #00f0ff;
+      --cyan-glow: rgba(0, 240, 255, 0.35);
+      --purple-neon: #c084fc;
+      --purple-glow: rgba(192, 132, 252, 0.35);
+      --magenta-neon: #f43f5e;
+      --magenta-glow: rgba(244, 63, 94, 0.4);
+      --emerald-neon: #10b981;
+      --emerald-glow: rgba(16, 185, 129, 0.4);
+      --amber-neon: #f59e0b;
+      --amber-glow: rgba(245, 158, 11, 0.4);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'Fira Code', monospace;
+      --radius-2xl: 22px;
+      --radius-xl: 16px;
+      --radius-lg: 12px;
+      --radius-md: 8px;
+      --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      background-image: 
+        radial-gradient(circle at 15% -10%, rgba(0, 240, 255, 0.14) 0%, transparent 45%),
+        radial-gradient(circle at 85% 20%, rgba(192, 132, 252, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 50% 80%, rgba(244, 63, 94, 0.08) 0%, transparent 50%),
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 1460px;
+      margin: 0 auto;
+      padding: 2.2rem 2rem 6rem;
+    }
+
+    /* HEADER GLASS */
+    header {
+      background: var(--glass-panel);
+      backdrop-filter: blur(24px) saturate(190%);
+      -webkit-backdrop-filter: blur(24px) saturate(190%);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-2xl);
+      padding: 1.8rem 2.2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .brand-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.8) 0%, rgba(192, 132, 252, 0.8) 100%);
+      border-radius: var(--radius-xl);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: 0 0 30px var(--cyan-glow), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .brand-text h1 {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      background: linear-gradient(120deg, #ffffff 30%, var(--cyan-neon) 80%, var(--purple-neon) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .brand-text p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .sheets-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(16, 185, 129, 0.22);
+      border: 1px solid #10b981;
+      color: #34d399;
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 0.3rem 0.8rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      backdrop-filter: blur(8px);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 12px #10b981;
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-roulette {
+      background: linear-gradient(135deg, rgba(192, 132, 252, 0.25) 0%, rgba(244, 63, 94, 0.25) 100%);
+      border: 1px solid rgba(192, 132, 252, 0.6);
+      color: #ffffff;
+      padding: 0.75rem 1.4rem;
+      border-radius: var(--radius-lg);
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: var(--transition-smooth);
+      box-shadow: 0 0 24px var(--purple-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+    }
+
+    .btn-roulette:hover {
+      background: linear-gradient(135deg, rgba(192, 132, 252, 0.45) 0%, rgba(244, 63, 94, 0.45) 100%);
+      border-color: #f43f5e;
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 0 35px var(--magenta-glow);
+    }
+
+    .btn-sync {
+      background: rgba(0, 240, 255, 0.12);
+      border: 1px solid var(--cyan-neon);
+      color: #ffffff;
+      padding: 0.75rem 1.3rem;
+      border-radius: var(--radius-lg);
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition-smooth);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 15px var(--cyan-glow);
+    }
+
+    .btn-sync:hover {
+      background: rgba(0, 240, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--cyan-glow);
+    }
+
+    .btn-sheet-link {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #6ee7b7;
+      padding: 0.75rem 1.2rem;
+      border-radius: var(--radius-lg);
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition-smooth);
+      backdrop-filter: blur(12px);
+    }
+
+    .btn-sheet-link:hover {
+      background: rgba(16, 185, 129, 0.25);
+      border-color: #34d399;
+      transform: translateY(-2px);
+    }
+
+    /* STATS BAR */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.1rem;
+    }
+
+    .stat-card {
+      background: rgba(10, 16, 34, 0.55);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: 1.1rem 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition-smooth);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .stat-card:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .stat-info .stat-label {
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-info .stat-value {
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      font-weight: 900;
+      color: var(--text-main);
+    }
+
+    .stat-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .stat-total .stat-icon { background: rgba(0, 240, 255, 0.15); color: var(--cyan-neon); }
+    .stat-visto .stat-icon { background: rgba(16, 185, 129, 0.15); color: var(--emerald-neon); }
+    .stat-no-visto .stat-icon { background: rgba(245, 158, 11, 0.15); color: var(--amber-neon); }
+    .stat-nuevas .stat-icon { background: rgba(244, 63, 94, 0.15); color: var(--magenta-neon); }
+
+    /* PROGRESS TRACKER */
+    .progress-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 9999px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981 0%, #00f0ff 60%, #c084fc 100%);
+      border-radius: 9999px;
+      box-shadow: 0 0 16px rgba(0, 240, 255, 0.7);
+      transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* TABS NAV */
+    .tabs-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 1.8rem;
+      overflow-x: auto;
+      padding-bottom: 0.4rem;
+    }
+
+    .tab-btn {
+      background: var(--glass-panel);
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--glass-border);
+      color: var(--text-muted);
+      padding: 0.85rem 1.5rem;
+      border-radius: var(--radius-xl);
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      transition: var(--transition-smooth);
+      white-space: nowrap;
+      user-select: none;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .tab-btn .badge-count {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      transition: var(--transition-smooth);
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.2) 0%, rgba(192, 132, 252, 0.2) 100%);
+      border-color: var(--cyan-neon);
+      color: #ffffff;
+      box-shadow: 0 0 25px var(--cyan-glow), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+
+    .tab-btn.active .badge-count {
+      background: var(--cyan-neon);
+      color: #050711;
+      font-weight: 900;
+    }
+
+    .tab-btn.tab-nuevas.active {
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.25) 0%, rgba(245, 158, 11, 0.25) 100%);
+      border-color: var(--magenta-neon);
+      box-shadow: 0 0 25px var(--magenta-glow);
+    }
+    .tab-btn.tab-nuevas.active .badge-count {
+      background: var(--magenta-neon);
+      color: #ffffff;
+    }
+
+    /* CONTROLS BAR */
+    .controls-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      min-width: 290px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      font-size: 1.15rem;
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--glass-panel);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: 0.9rem 1.2rem 0.9rem 3.1rem;
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      outline: none;
+      transition: var(--transition-smooth);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .search-input:focus {
+      border-color: var(--cyan-neon);
+      box-shadow: 0 0 22px var(--cyan-glow);
+      background: rgba(18, 26, 54, 0.85);
+    }
+
+    .search-shortcut {
+      position: absolute;
+      right: 1.1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.15rem 0.5rem;
+      pointer-events: none;
+    }
+
+    .filter-options {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .select-sort {
+      background: var(--glass-panel);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: 0.9rem 1.3rem;
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    .select-sort:focus {
+      border-color: var(--cyan-neon);
+    }
+
+    .results-count {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-family: var(--font-mono);
+    }
+
+    /* ANIME GRID WITH CARDS & THUMBNAILS */
+    .anime-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 1.3rem;
+    }
+
+    .anime-card {
+      background: var(--glass-card);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: 1.1rem;
+      display: flex;
+      gap: 1.1rem;
+      align-items: stretch;
+      position: relative;
+      transition: var(--transition-smooth);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+    }
+
+    .anime-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: transparent;
+      transition: var(--transition-smooth);
+    }
+
+    .anime-card.status-visto::before {
+      background: var(--emerald-neon);
+      box-shadow: 0 0 12px var(--emerald-glow);
+    }
+
+    .anime-card.status-no-visto::before {
+      background: var(--amber-neon);
+      box-shadow: 0 0 12px var(--amber-glow);
+    }
+
+    .anime-card:hover {
+      background: var(--glass-card-hover);
+      border-color: rgba(255, 255, 255, 0.22);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 240, 255, 0.15);
+    }
+
+    /* THUMBNAIL POSTER */
+    .card-thumb-wrapper {
+      width: 82px;
+      min-width: 82px;
+      height: 118px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(0, 240, 255, 0.1) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      flex-shrink: 0;
+    }
+
+    .card-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+      opacity: 0;
+    }
+
+    .card-thumb.loaded {
+      opacity: 1;
+    }
+
+    .anime-card:hover .card-thumb {
+      transform: scale(1.08);
+    }
+
+    .thumb-placeholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, #121932 0%, #0d1224 100%);
+      color: var(--cyan-neon);
+      font-size: 1.5rem;
+      user-select: none;
+    }
+
+    .thumb-placeholder span {
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: var(--text-dim);
+      margin-top: 0.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* CARD DETAILS */
+    .card-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 0;
+      gap: 0.6rem;
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.02rem;
+      font-weight: 800;
+      line-height: 1.35;
+      color: var(--text-main);
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      word-break: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 0.22rem 0.65rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      backdrop-filter: blur(8px);
+    }
+
+    .badge-visto {
+      background: rgba(16, 185, 129, 0.16);
+      border: 1px solid rgba(16, 185, 129, 0.5);
+      color: #34d399;
+    }
+
+    .badge-no-visto {
+      background: rgba(245, 158, 11, 0.16);
+      border: 1px solid rgba(245, 158, 11, 0.5);
+      color: #fbbf24;
+    }
+
+    .badge-nueva-temp {
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.25), rgba(245, 158, 11, 0.25));
+      border: 1px solid rgba(244, 63, 94, 0.65);
+      color: #ff6b81;
+      animation: pulse 2.2s infinite ease-in-out;
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.6rem;
+      padding-top: 0.4rem;
+    }
+
+    .btn-mark-visto {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 0.55rem 1.15rem;
+      border-radius: var(--radius-lg);
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: var(--transition-smooth);
+      box-shadow: 0 0 16px var(--emerald-glow), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-mark-visto:hover {
+      background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 0 24px rgba(16, 185, 129, 0.65);
+    }
+
+    .btn-mark-visto:active {
+      transform: scale(0.96);
+    }
+
+    .btn-mark-visto.loading {
+      opacity: 0.7;
+      pointer-events: none;
+      cursor: wait;
+    }
+
+    .badge-completed-tag {
+      font-size: 0.78rem;
+      color: #34d399;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 4.5rem 2rem;
+      background: var(--glass-panel);
+      border: 1px dashed var(--glass-border);
+      border-radius: var(--radius-2xl);
+      backdrop-filter: blur(20px);
+    }
+
+    .empty-icon {
+      font-size: 3.8rem;
+      margin-bottom: 1rem;
+      opacity: 0.8;
+    }
+
+    .empty-state h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+
+    .empty-state p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* ROULETTE MODAL GLASS */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(4, 6, 16, 0.82);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .roulette-modal {
+      background: rgba(16, 24, 48, 0.88);
+      border: 1px solid rgba(192, 132, 252, 0.5);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 50px var(--purple-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-2xl);
+      padding: 2.2rem;
+      max-width: 520px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      transform: scale(0.9) translateY(20px);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-overlay.active .roulette-modal {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--glass-border);
+      color: var(--text-muted);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    .modal-close-btn:hover {
+      background: rgba(244, 63, 94, 0.25);
+      color: #ffffff;
+      border-color: #f43f5e;
+    }
+
+    .roulette-header {
+      margin-bottom: 1.4rem;
+    }
+
+    .roulette-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: linear-gradient(135deg, rgba(192, 132, 252, 0.2), rgba(244, 63, 94, 0.2));
+      border: 1px solid rgba(192, 132, 252, 0.6);
+      color: #f472b6;
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 0.3rem 0.9rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .roulette-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    .roulette-poster-box {
+      width: 170px;
+      height: 245px;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      margin: 1rem 0 1.4rem;
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(192, 132, 252, 0.1));
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 25px var(--cyan-glow);
+      position: relative;
+    }
+
+    .roulette-poster-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .roulette-anime-name {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.3;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      min-height: 2.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .roulette-anime-name.spinning {
+      color: var(--cyan-neon);
+      filter: blur(0.5px);
+      animation: spinPulse 0.12s infinite alternate;
+    }
+
+    @keyframes spinPulse {
+      from { transform: scale(0.98); opacity: 0.8; }
+      to { transform: scale(1.02); opacity: 1; }
+    }
+
+    .roulette-modal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      width: 100%;
+      margin-top: 0.8rem;
+    }
+
+    .btn-modal-visto {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      border: none;
+      padding: 0.9rem;
+      border-radius: var(--radius-lg);
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      transition: var(--transition-smooth);
+      box-shadow: 0 0 20px var(--emerald-glow);
+    }
+
+    .btn-modal-visto:hover {
+      background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.7);
+    }
+
+    .btn-modal-reroll {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      padding: 0.85rem;
+      border-radius: var(--radius-lg);
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: var(--transition-smooth);
+    }
+
+    .btn-modal-reroll:hover {
+      background: rgba(192, 132, 252, 0.2);
+      border-color: var(--purple-neon);
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    /* TOAST NOTIFICATION */
+    .toast-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: rgba(12, 18, 38, 0.95);
+      border: 1px solid var(--cyan-neon);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 25px var(--cyan-glow);
+      backdrop-filter: blur(20px);
+      color: var(--text-main);
+      padding: 1rem 1.4rem;
+      border-radius: var(--radius-xl);
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      font-size: 0.92rem;
+      font-weight: 600;
+      min-width: 320px;
+      max-width: 440px;
+      transform: translateY(40px);
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: auto;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .toast-content {
+      flex: 1;
+    }
+
+    .toast-title {
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    .toast-desc {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      margin-top: 0.15rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .container { padding: 1.2rem 1.2rem 4rem; }
+      .brand-text h1 { font-size: 1.6rem; }
+      .stats-bar { grid-template-columns: 1fr 1fr; }
+      .controls-bar { flex-direction: column; align-items: stretch; }
+      .anime-grid { grid-template-columns: 1fr; }
+      .toast-container { left: 1.2rem; right: 1.2rem; bottom: 1.2rem; }
+      .toast { min-width: auto; max-width: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- HEADER -->
+    <header>
+      <div class="header-top">
+        <div class="brand">
+          <div class="brand-icon">🎌</div>
+          <div class="brand-text">
+            <h1>ANIME VAULT <span class="sheets-badge"><span class="pulse-dot"></span> Sincronizado</span></h1>
+            <p>Gestor oficial de animes con miniaturas y ruleta de selección</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn-roulette" id="btnOpenRoulette" title="Elegir un anime aleatorio para ver hoy">
+            <span>🎰</span> Ruleta al Azar
+          </button>
+          <button class="btn-sync" id="btnRefresh" title="Actualizar datos desde Google Sheets">
+            <span>🔄</span> Sincronizar Sheets
+          </button>
+          <a href="https://docs.google.com/spreadsheets/d/1SucOF-ffV4d0gRwPs7-FELtTh9oFMPHR3Vvuf0QCmAE/edit" target="_blank" rel="noopener noreferrer" class="btn-sheet-link">
+            <span>📊</span> Google Sheet
+          </a>
+        </div>
+      </div>
+
+      <!-- METRICS & STATS -->
+      <div class="stats-bar">
+        <div class="stat-card stat-total">
+          <div class="stat-info">
+            <div class="stat-label">Total Catálogo</div>
+            <div class="stat-value" id="statTotal">0</div>
+          </div>
+          <div class="stat-icon">📚</div>
+        </div>
+
+        <div class="stat-card stat-visto">
+          <div class="stat-info">
+            <div class="stat-label">Completados (Vistos)</div>
+            <div class="stat-value" id="statVisto">0</div>
+          </div>
+          <div class="stat-icon">✅</div>
+        </div>
+
+        <div class="stat-card stat-no-visto">
+          <div class="stat-info">
+            <div class="stat-label">Pendientes (Por Ver)</div>
+            <div class="stat-value" id="statNoVisto">0</div>
+          </div>
+          <div class="stat-icon">🎯</div>
+        </div>
+
+        <div class="stat-card stat-nuevas">
+          <div class="stat-info">
+            <div class="stat-label">Nuevas Temporadas</div>
+            <div class="stat-value" id="statNuevas">0</div>
+          </div>
+          <div class="stat-icon">🔥</div>
+        </div>
+      </div>
+
+      <!-- PROGRESS TRACKER -->
+      <div class="progress-wrapper">
+        <div class="progress-labels">
+          <span>Progreso de Visualización</span>
+          <span id="progressText">0% Completado</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- NAVIGATION TABS -->
+    <nav class="tabs-nav">
+      <button class="tab-btn active" data-tab="no_visto">
+        <span>🎯</span> POR VER <span class="badge-count" id="tabCountNoVisto">0</span>
+      </button>
+      <button class="tab-btn" data-tab="visto">
+        <span>✅</span> VISTOS <span class="badge-count" id="tabCountVisto">0</span>
+      </button>
+      <button class="tab-btn tab-nuevas" data-tab="nuevas">
+        <span>🔥</span> NUEVAS TEMPORADAS <span class="badge-count" id="tabCountNuevas">0</span>
+      </button>
+      <button class="tab-btn" data-tab="todos">
+        <span>🌐</span> TODOS <span class="badge-count" id="tabCountTodos">0</span>
+      </button>
+    </nav>
+
+    <!-- CONTROLS & SEARCH -->
+    <div class="controls-bar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="Buscar anime por nombre..." autocomplete="off">
+        <span class="search-shortcut">/</span>
+      </div>
+
+      <div class="filter-options">
+        <select id="sortSelect" class="select-sort">
+          <option value="az">Alfabético: A - Z</option>
+          <option value="za">Alfabético: Z - A</option>
+        </select>
+        <span class="results-count" id="resultsCount">0 animes</span>
+      </div>
+    </div>
+
+    <!-- MAIN GRID CONTAINER -->
+    <main class="anime-grid" id="animeGrid">
+      <!-- Inyectado por JavaScript -->
+    </main>
+  </div>
+
+  <!-- ROULETTE MODAL -->
+  <div class="modal-overlay" id="rouletteModal">
+    <div class="roulette-modal">
+      <button class="modal-close-btn" id="btnCloseModal" title="Cerrar">✕</button>
+      <div class="roulette-header">
+        <span class="roulette-tag">🎲 Ruleta de Destino</span>
+        <h2 class="roulette-title">¿Qué anime ver hoy?</h2>
+      </div>
+
+      <div class="roulette-poster-box">
+        <img id="roulettePoster" src="" alt="Carátula" style="display: none;">
+        <div id="roulettePosterFallback" class="thumb-placeholder" style="font-size: 3rem;">
+          🎌
+        </div>
+      </div>
+
+      <div class="roulette-anime-name" id="rouletteAnimeName">GIRANDO...</div>
+
+      <div class="roulette-modal-actions">
+        <button class="btn-modal-visto" id="btnRouletteMarcarVisto" style="display: none;">
+          <span>✓</span> ¡Comenzar &amp; Marcar como Visto!
+        </button>
+        <button class="btn-modal-reroll" id="btnRouletteReroll">
+          <span>🎲</span> Girar de nuevo (Elegir otro)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    // Datos cargados desde Python
+    let vistosList = ["NOKEMONO-TACHI THE TALE OF OUTCASTS", "100 MAN NO INOCHI NO UE ORE WA TATEIRU", "A SILENT VOICE-KOE NO KATASHI", "ABSOLUTE DUO", "AKUYAKU REIJOU LEVEL 99", "ARIFURETA SHOKUGYOU DE SEKAI SAIKYOU", "ASSASSINS PRIDE", "ASSAULT LILY", "AZUR LANE", "BAKEMONO NO KO", "BERSERK", "BIKINI WARRIORS", "BLEACH", "BLOOD LAD", "BLUE LOCK", "BOCCHI THE ROCK", "BOKU NO KOKORO NO YABAI YATSU", "BOTSURAKU YOTEI NO KIZOKU", "BOUNEN NO XAMDOU", "BOUSHOKU NO BERSERK", "BUCHIGIRI", "CHAIN CHRONICLE", "CHAIN SAW", "CHARLOTTE", "CHOUJIN KOUKOUSEI NO SURVIVAL", "CHIYU MAHOU NO MACHIGATTA TSUKAIKATA", "CHOUJIN KOUKOUSEI-TACHI WA ISEKAI DEMO YOYUU DE IKINUKU YOU DESU!", "DAN DA DAN", "DANGANROMPA", "DANMACHI-DUNGEON NI DEAI", "DANSAI BUNRI NO CRIMEN EDGE", "DARK GATHERING", "DARWINS GAMES", "DATE A LIVE", "DEAD MOUNT DEATH PLAY", "DEADMAN WONDERLAND", "DEATH MARCH KARA HAJIMARU", "DORORO", "DRIFTERS", "DUMBELL NAN KILO", "EIGHTY-SIX (86)", "EIYUU KYOUSHITSU", "ERASED", "FIRE FORCE -ENEN NO SHOUBOUTAI", "FUUTO TANTEI", "GAIKOTSU KISHI-SAMA, TADAIMA ISEKAI E ODEKAKECHUU", "GAKUSEN TOSHI ASTERISK", "GAMERS", "GENJITSU SHUGI YUUSHA NO OUKOKU SAIKEN", "GETSUYOUBI NO TAWAWA", "GLEIPNIR", "GOBLIN SLAYER", "GOLDEN TIME", "GRANCREST SENKI", "GRISAIA", "GUNJOU NO MAGMEL", "HAI TO GENSOU NO GRIMGAR", "HAMETSU NO OUKOKU", "HATARAKU MAOU SAMA", "HAZUREWAKU NO JOUTAI IJOU SKILL", "HELCK", "HINAMATSURI", "HINOMARU SUMO", "HITORI NO SHITA", "HORIMIYA", "HUNDRED", "HYOUKEN NO MAJUTSUSHI GA SEKAI", "INFINITE DENDROGRAM", "INOU-BATTLE WA NICHIJOU-KEI NO NAKA DE", "INU NI NATTARA SUKI NA HITO NI HIROWARETA", "ISEKAI CHEAT MAGICIAN", "ISEKAI DE CHEAT SKILL WO TE NI SHITA ORE WA", "ISEKAI MAOU TO SHOUKAN SHOUJO NO DOREI MAJUTSU", "ISEKAI MEIKYUU DE HAREM WO", "ISEKAI ONE TURN KILL NEE-SAN", "ISEKAI SHOUKAN WA NIDOMEDESU", "ISEKAI WA SMARTPHONE TO TOMO NI", "ISEKAI YAKKYOKU", "ISEKAI YURURI KIKOU: KOSODATE SHINAGARA BOUKENSHA SHIMASU", "ISHUZOKU REVIEWERS", "ISSHUN DE CHIRYOU SHITEITA NONI YAKUTATAZU TO TSUIHOU SARETA TENSAI CHIRYOUSHI", "ITAI NO WA IYA NANO DE BOUGYORYOKU NI KYOKUFURI SHITAI TO OMOIMASU (BOFURI)", "JIGOKURAKU (HELL'S PARADISE)", "JITSU WA ORE SAIKYOU DESHITA", "JUJUTSU KAISEN", "JUUOU MUJIN NO FAFNIR", "KAGE NO JITSURYOKUSHA NI NARITAKUTE", "KAIFUKU JUTSUSHI NO YARINAOSHI (REDO OF HEALER)", "KAIJUU 8", "KAIKO SARETA ANKOKU HEISHI (30-DAI) NO SLOW NA SECOND LIFE", "KAIZOKU OUJO", "KAKKOU NO IINAZUKE (A COUPLE OF CUCKOOS)", "KAMI NO TOU (TOWER OF GOD)", "KAMI-TACHI NI HIROWARETA OTOKO", "KAMINAKI SEKAI NO KAMISAMA KATSUDOU", "KANCHIGAI NO ATELIER MEISTER", "KANOJO MO KANOJO", "KARAKURI CIRCUS", "KATAINAKA NO OSSAN, KENSEI NI NARU", "KATSUGEKI TOUKEN RANBU", "KEIKENZUMI NA KIMI TO KEIKEN ZERO NA ORE GA TSUKIAU HANASHI", "KEMONO JIHEN", "KENGAN ASHURA", "KENJA NO MAGO", "KILLING BITES", "KIMETSU NO YAIBA", "KIMIWA KANATA", "KINSOU NO VERMEIL", "KISHUKU GAKKOU NO JULIET", "KOBAYASHI-SAN CHI NO MAID DRAGON", "KOI WA SEKAI SEIFUKU NO ATO DE", "KONYAKU HAKI SARETA REIJOU WO HIROTTA ORE GA", "KUUSEN MADOSHI KOUHOSEI NO KYOUKAN", "KOUTETSUJOU NO KABANERI", "KUMO DESU GA NANI KA", "KURO NO SHOUKANKAN", "KUZU NO HONKAI (SCUM'S WISH)", "KYOKOU SUIRI", "KYOUKAI NO KANATA (BEYOND THE BOUNDARY)", "KYUUKYOKU SHINKA SHITA FULL DIVE RPG GA GENJITSU YORI MO KUSOGE DATTERA", "LEADALE NO DAICHI NITE (IN THE LAND OF LEADALE)", "LOOKISM", "MACHINE-DOLL WA KIZUTSUKANAI", "MADE IN ABYSS", "MAHOU SHOUJO SITE", "MAHOUKA KOUKOU NO RETTOUSEI", "MAHOUTSUKAI NO YOME (THE ANCIENT MAGUS' BRIDE)", "MAHOUTSUKAI REIMEIKI", "MAJO TO YAJUU (THE WITCH AND THE BEAST)", "MAKEN KI", "MONONOGATARI (MALEVOLENT SPIRITS)", "MAOU GAKUIN NO FUTEKIGOUSHA", "MAOU GUN SAIKYOU NO MAJUTSUSHI WA NINGEN DATTA", "MAOU NO ORE GA DOREI ELF WO YOME NI SHITA N DAGA, DOU MEDEREBA II?", "MAOU-SAMA, RETRY!", "MASAMUNE-KUN NO REVENGE", "MASHLE", "MIZU ZOKUSEI NO MAHOUTSUKAI", "MONSTER MUSUME NO IRU NICHIJOU", "MONSTER MUSUME NO OISHA-SAN", "MUNOU NA NANA", "MUSAIGEN NO PHANTOM WORLD", "MUSHOKU TENSEI", "NANATSU NO MAKEN GA SHIHAI SURU", "NANDE KOKO NI SENSEI GA!?", "NETOGE NO YOME WA ONNANOKO JA NAI TO OMOTTA?", "NIEHIME TO KEMONO NO OU", "NINGEN FUSHIN NO BOUKENSHA-TACHI GA SEKAI WO SUKUU YOU DESU", "NOUMIN KANREN NO SKILL BAKKA AGETETARA NAZEKA TSUYOKUNATTA", "OROKA NA TENSHI WA AKUMA TO ODORU", "ORE DAKE HAIRERU KAKUSHI DUNGEON", "SOLO LEVELING (ORE DAKE LEVEL UP NA KEN)", "ORE WA SUBETE WO PARRY SURU", "ORE WO SUKI NANO WA OMAE DAKE KA YO", "ORIENT", "OSHI NO KO", "OTOME GAME SEKAI WA MOB NI KIBISHII SEKAI DESU", "OVERLORD IV", "OWARI NO SERAPH", "PEACH BOY RIVERSIDE", "PLATINUM END", "PLUNDERER", "PRINCESS CONNECT! RE:DIVE", "PUNCH LINE", "QUALIDEA CODE", "RADIANT", "RAGNA CRIMSON", "RAKUDAI KISHI NO CAVALRY", "REWRITE", "RE:MONSTER", "ROKUDENASHI MAJUTSU KOUSHI TO AKASHIC RECORDS", "SAIHATE NO PALADIN", "SAIJAKU MUHAI NO BAHAMUT", "SAIKYOU ONMYOUJI NO ISEKAI TENSEIKI", "SAIKYOU TANK NO MEIKYUU KOURYAKU", "SAIJAKU TAMER WA GOMI HIROI NO TABI WO HAJIMEMASHITA", "SATSURIKU NO TENSHI (ANGELS OF DEATH)", "SEIJO NO MARYOKU WA BANNOU DESU", "SEIKEN GAKUIN NO MAKENTSUKAI", "SEIKEN TSUKAI NO WORLD BREAK", "SEISHUN BUTA YAROU WA BUNNY GIRL SENPAI NO YUME WO MINAI", "SEKAI SAIKOU NO ANSATSUSHA, ISEKAI KIZOKU NI TENSEI SURU", "SENPAI GA UZAI KOUHAI NO HANASHI", "SENTOUIN HAKENSHIMASU", "SERVAMP", "SHANGRI LA FRONTIER", "SHIGATSU WA KIMI NO USO", "SHIJOU SAIKYOU NO DAIMAOU, MURABITO A NI TENSEI SURU", "SHIJOU SAIKYOU NO DESHI KENICHI", "SHIKKAKUMON NO SAIKYOU KENJA", "SHINCHOU YUUSHA: KONO YUUSHA GA ORE TUEEE KUSE NI SHINCHOU SUGIRU", "SHINGEKI NO KYOJIN (ATTACK ON TITAN)", "SHINKA NO MI: SHIRANAI UCHI NI KACHIGUMI JINSEI", "SHINMAI OSSAN BOUKENSHA, SAIKYOU PARTY NI SHINU HODO KITAERARETE MUTENKI NI NARU", "SHOKEI SHOUJO NO VIRGIN ROAD", "SHUUMATSU NO WALKURE (RECORD OF RAGNAROK)", "SHUUMATSU NANI SHITEMASU KA? ISOGASHII DESU KA? SUKUTTE MORATTE II DESU KA? (SUKASUKA)", "SHUUMATSU NO HAREM", "SIN NANATSU NO TAIZAI", "SOKUSHI CHEAT GA SAIKYOU SUGITE, ISEKAI NO YATSURA GA MARUDE AITE NI NARANAI N DESU GA", "SOUSEI NO ONMYOUJI", "SUMMER TIME RENDERING", "TABOO TATTOO", "TAKT OP. DESTINY", "TALES OF ZESTIRIA THE X", "TASOGARE OTOME X AMNESIA", "TATOEBA LAST DUNGEON MAE NO MURA NO SHOUNEN GA JOBAN NO MACHI DE KURASU YOUNA MONOGATARI", "TENGOKU DAIMAKYOU", "TENSAI OUJI NO AKAJI KOKKA SAISEI JUTSU", "TENSEI KENJA NO ISEKAI LIFE", "TENSEI KIZOKU NO ISEKAI BOUKENROKU", "TENSEI OUJO TO TENSAI REIJOU NO MAHOU KAKUMEI", "TENSEI SHITARA DAINANA OUJI DATTA NODE, KIMAMA NI MAJUTSU WO KIWAMEMASU", "TENSEI SHITARA KEN DESHITA REINCARNATED AS A SWORD", "TENSEI SHITARA SLIME DATTA KEN", "HATARAKU MAOU-SAMA! (THE DEVIL IS A PART-TIMER!)", "THE DUNGEON OF BLACK COMPANY", "THE GOD OF HIGHSCHOOL", "THE NEW GATE", "THE PROMISED NEVERLAND", "THE UNLIMITED HYOUBU KYOUSUKE", "TOARU KAGAKU NO ACCELERATOR", "TOARU OSSAN NO VRMMO KATSUDOUKI", "TOARU KAGAKU NO RAILGUN", "TOKYO RAVENS", "TOKYO REVENGERS", "TOMO CHAN WA ONNANOKO", "TSUE TO TSURUGI NO WISTORIA (WISTORIA: WAND AND SWORD)", "TSUGUMOMO", "TSUKIMICHI: MOONLIT FANTASY (TSUKI GA MICHIBIKU ISEKAI DOUCHUU)", "UNDEAD GIRL MURDER FARCE", "UNDEAD UNLUCK", "UQ HOLDER", "UZAKI CHAN WA ASOBITAI", "VAL X LOVE", "VANITAS NO CARTE", "VINLAND SAGA", "VIVIDRED OPERATION", "WITCH CRAFT WORKS", "WITCHBLADE", "WIND BREAKER", "YOUJO SENKI", "YOZAKURA QUARTET", "YUMEKUI MERRY", "YUMEMIRU DANSHI WA GENJITSU SHUGISHA", "YURAGI-SOU NO YUUNA-SAN", "YUUSHA, YAMEMASU", "YUUSHA PARTY WO TSUIHOU SARETA BEAST TAMER", "ZANKYOU NO TERROR", "ZERO NO TSUKAIMA", "ZETSUEN NO TEMPEST", "ZOM 100: BUCKET LIST OF THE DEAD", "KIZETSU YUUSHA TO ANSATSU HIME", "ISEKAI MOKUSHIROKU MYNOGHRA: HAMETSU NO BUNMEI DE HAJIMERU SEKAI SEIFUKU", "SHINJITEITA NAKAMA-TACHI NI DUNGEON OKUCHI DE KOROSAREKAKETA GA GIFT", "NAGEKI NO BOUREI WA INTAI SHITAI PART 2", "MAJUTSUSHI KUNON WA", "LVL1 MAOU TO ONE ROOM YUUSHA", "WITCH WATCH NO ATELIER", "DOROHEDORO", "KISOKU TENSEI MEGUMARETA", "MAIRIMASHITA IRUMA KUN", "YUUSHA PARTY NI KAWAII KO GA ITA NODE", "A HAREM-SAN WA HAKARENAI"];
+    let noVistosList = ["A RANK PARTY WO RIDATSU", "AKUJIKI REIJOU TO KYOUKETSU KOUSHAKU", "ALMA-CHAN WA KAZOKU NI NARITAI", "ANSATSUSHA DE ARU ORE NO STATUS GA YUUSHA YORI MO AKIRAKA NI TSUYOI NO DA GA", "AO NO MIBURO", "ARKNIGHTS FUYUKOMARI KAERIMICHI", "ARKNIGHTS: RISE FROM EMBER", "AROUND 40 OTOKO NO ISEKAI TSUUHAN", "ARU MAJO GA SHINU MADE", "BUSAMEN GACHI FIGHTER", "CHANTO SUENAI KYUUKETSUKI-CHAN", "CHICHI WA EIYUU, HAHA WA SEIREI, MUSUME NO WATASHI WA TENSEISHA", "CHITOSE-KUN WA RAMUNE BIN NO NAKA", "CHOTTO DAKE AI GA OMOI DARK ELF GA ISEKAI KARA TSUITEKITA", "CLASS NO DAIKIRAI NA JOSHI TO KEKKON SURU KOTO NI NATTA", "CLEVATESS: MAJUU NO OU TO AKAGO TO SHIKABANE NO YUUSHA", "DEATTE 5-BYOU DE BATTLE", "DEKISOKONAI TO YOBARETA MOTOEIKYUU", "DEVIL GAME", "DOMESTIC NA KANOJO", "EDENS ZERO", "ENGAGE KISS", "FATE", "FUGUUSHOKU KANTEISHI GA JITSU WA SAIKYOU DATTA", "GANSTA", "GASSHUKU!", "GATARIS", "GENSOU SANGOKUSHI", "GIMAI SEIKATSU", "GORILLA NO KAMI KARA KAGO SARETA REIJOU", "GRISAIA PHANTOM TRIGGER", "GUILD NO UKETSUKEJOU DESU GA", "HAIGAKURA", "HAITE KUDASAI, TAKAMINE-SAN", "HANYOU NO YASHAHIME INUYASHA", "HAZURE SKILL KINOMI MASTER", "HIKIKOMARI KYUUKETSUKI NO MONMON", "HITORIBOCCHI NO ISEKAI KOURYAKU", "HORTENSIA SAGA", "IRUMA KUN", "ISEKAI OJISAN (UNCLE FROM ANOTHER WORLD)", "ISEKAI SHIKKAKU", "ISLAND", "IZURE SAIKYOU NO RENKINJUTSUSHI", "JIDOU HANBAIKI NI UMAREKAWATTA ORE WA MEIKYUU WO SAMAYOU", "KAII TO OTOME TO KAMIKAKUSHI", "KAKUSHITE! MAKINA-SAN!!", "KAMI WA GAME NI UETEIRU", "KAMONOHASHI RON NO KINDAN SUIRI", "KANPEKISUGITE KAWAIGE GA NAI TO KONYAKU", "KAO NI DENAI KASHIWADA-SAN TO KAO NI DERU OOTA-KUN", "KAORU HANA WA RIN", "KAORU HANA WA RIN TO SAKU", "KATSUKE KAMI DATTA KEMONO", "KAI BYOUI RAMUNE (DR. RAMUNE: MYSTERIOUS DISEASE SPECIALIST)", "KEKKON YUBIWA MONOGATARI II", "KIJIN GENTOUSHOU", "KIKANSHA NO MAHO WA TOKUBETSU", "KIMI TO BOKU NO SAIGO NO SENJOU", "KIMI WA MEIDO SAMA", "KINGDOM", "KIZNAIVER", "KONOSUBA: GOD'S BLESSING ON THIS WONDERFUL WORLD!", "KOUJO DENKA NO KATEIKYOUSHI", "KUROSHITSUJI: KISHUKU GAKKOU-HEN (BLACK BUTLER)", "THE BEGINNING AFTER THE END (LA VIDA DESPUES DE LA MUERTE)", "LV2 KARA CHEAT DATTA MOTO YUUSHA KOUHO", "MAGIC MAKER: ISEKAI MAHOU NO TSUKURIKATA", "MAHOU SHOUJO MAGICAL DESTROY", "MAOU 2099", "MAOU SENSEI MONOGATARI", "MASOU GAKUEN", "MATO SEIHEI NO SLAVE", "MAYONAKA PUNCH", "MIERUKO CHAN", "MIKADONO SAN", "MIKATA GA YOWASUGITE HOJO MAHOU NI TESSHITEITA KYUUTEI MAHOUSHI", "MAHOU SHOUJO NI AKOGARETE (GHUSHING OVER MAGICAL GIRLS)", "MUSHOKU NO EIYUU: BETSU NI SKILL NANKA IRANAKATTA N DA GA", "MY DAUGHTER LEFT THE NEST AND RETURNED AN S-RANK ADVENTURER", "NAZE BOKU NO SEKAI WO DARE MO OBOETEINAI NO KA?", "NEET KUNOICHI TO NAZEKA DOUSEI HAJIMEMASHITA", "NEKOPARA", "NIER AUTOMATA", "NINJA KAMUI", "NINJA TO GOKUDO", "NOZOMANU FUSHI NO BOUKENSHA", "NUKITASHI THE ANIMATION", "ODA NOBUNA NO YABOU", "ONMYOU KAITEN RE:BIRTH", "ORE WA SEIKAN KOKKA NO AKUTOKU RYOUSHU!", "PARTY KARA TSUIHOU SARETA SONO CHIRYOUSHI, JITSU WA SAIKYOU NI TSUKI", "S-RANK MONSTER NO BEHEMOTH DAKEDO, NEKO TO MACHIGAWARETE", "SAIKYOU NO SHIENSHOKU WAJUTSUSHI DE ARU ORE WA SEKAI SAIKYOU CLAN WO SHITAGAIRU", "SAIYUUKI RELOAD BLAST", "SAKAMOTO DAYS", "SALARYMAN GA ISEKAI NI ITTARA SHITENNOU NI NATTA HANASHI", "SAWARANAIDE KOTESASHI-KUN", "SAYOUNARA RYUUSEI KONNICHIWA JINSEI", "SEISHUN BUTA YAROU", "SEIRITSU SURU? IYA, SHINAI!", "SENGOKU YOUKO", "SHI CAO LAO LONG BEI GUAN YI E LONG ZHI MING", "SHIN NO NAKAMA JA NAI TO YUUSHA NO PARTY WO", "SHIUNJI-KE NO KODOMOTACHI", "SHY", "SILENT WITCH", "SLIME TAOSHITE 300-NEN SHIRANAI UCHI NI LEVEL MAX NI", "SOZAI SAISHUKA NO ISEKAI RYOKOUKI", "SUMMER POCKETS", "TEOGONIA", "TOKIDOKI BOSOTTO ROSHIA-GO DE DERERU TONARI NO AALYA-SAN (ROSHIDERE)", "TOMODACHI NO IMOUTO GA ORE NI DAKE UZAI", "TONIKAKU KAWAII", "TOUGEN ANKI", "TOWA NO QUON-6-PELICULAS", "TSUIHOUSHA SHOKUDOU E YOUKOSO", "TSUYOKUTE NEW SAGA", "UBEL BLATT", "UMA MUSUME: CINDERELLA GRAY PART 2", "UNNAMED MEMORY", "USHIO TO TORA", "VIGILANTE: BOKU NO HERO ACADEMIA ILLEGALS", "VIOLET EVERGARDEN", "VIVY: FLUORITE EYE'S SONG", "JAKU-CHARA TOMOZAKI-KUN", "YARINAOSHI REIJOU WA RYUUTEI HEIKA WO KOURYAKU CHUU", "YASEI NO LAST BOSS GA ARAWARETA!", "YASUKE", "YOUKAI GAKKOU NO SENSEI HAJIMEMASHITA", "YUUSHA GA SHINDA", "ZENSHUU", "SAKURA-SOU NO PET NA KANOJO", "KAYA-CHAN WA KOWAKUNAI", "OKIRAKU RYOSHU NO TANOSHI", "DEAD ACOUNT", "HELL MODE YARIKOMIZUKI", "OMAE GOTOKI GA MAOU NI KATERU", "29-SAI DOKUSHIN CHUUKEN BOUKENSHA NO NICHIJOU", "MAOU NO MUSUME WA YASASHISUGIRU", "DARKWIN JIHEN", "YUUSHA PARTY WO OIDASARETA KIYOUBINBOU", "YUUSHA-KEI NI SHOSU: CHOUBATSU YUUSHA 9004-TAI KEIMU KIROKU", "RAKUDAI KENJA NO GAKUIN", "SUPER NO URA DE YANI SUU FUTARI", "HEROINE SIJO LIE ALL WORKS", "KURONEKO TO MAJO NO KYOUSHITSU", "HOMEKISHI WA BARBAROI", "MEGAMI ISEKAI TENSEI NANI NI NARITAI DESU KA ORE", "TONGARI BOUSHI NO ATELIER", "KANAN SAMA WA AKUMADE CHOROI", "INGOKU DANCHI", "KAMI NO NIWATSUKI KUSUNOKI TEI", "YOMI NO TSUGAI", "SAIKYOU NO SHOKUGYOU WA YUUSHA DEMO KENA NAKU", "REINCARNATION NO KABEN", "MAMONOGURAIO NO BOUKENSHA ORE DAKE MAMONO", "DAIKENJA RIDDLE NO JIKAN GYAKKOU", "HOTARU NO YOMEIRI", "DARK SUMMONER TO DEKITEIRU"];
+    let nuevasList = ["BUNGOU STRAY DOGS", "BYE BYE EARTH", "AO NO EXORCIST", "DR STONE", "FAIRY TAIL: 100 YEARS QUEST", "FUMETSU NO ANATA E (TO YOUR ETERNITY)", "GOLDEN KAMUY", "ISEKAI NOMBIRI NOUKA", "ISHURA", "KANOJO OKARISHIMASU", "KIMI NO KOTO GA DAI DAI", "KIMI TO BOKU NO SAIGO NO SENJOU, ARUIWA SEKAI GA HAJIMARU SEISEN", "RE:ZERO KARA HAJIMERU ISEKAI SEIKATSU", "SEIREI GENSOUKI", "SONO BISQUE DOLL WA KOI WO SURU", "SOUSOU NO FRIEREN", "SPY X FAMILY", "TATE NO YUUSHA NO NARIAGARI", "TENSEI KIZOKU KANTEI SKILL DE NARIAGARU", "THE DAILY LIFE OF THE IMMORTAL KING", "YOFUKASHI NO UTA", "YOUKOSO JITSURYOKU SHIJOU", "YOZAKURA-SAN CHI NO DAISAKUSEN", "WATASHI NO SHIAWASE NA KEKKON", "TONDEMO SKILL DE ISEKAI HOUROU"];
+
+    const SPREADSHEET_ID = "1SucOF-ffV4d0gRwPs7-FELtTh9oFMPHR3Vvuf0QCmAE";
+    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxSsMQgztIxV7BM2z1sQFoIh-DngwNVSQYn7uheStsQ_vXOEeFTN1H5A9DNy19KdeZ7/exec";
+
+    let currentTab = 'no_visto';
+    let currentSearch = '';
+    let currentSort = 'az';
+
+    let nuevasSet = new Set(nuevasList.map(item => item.toUpperCase()));
+
+    // Sistema de caché de carátulas en localStorage
+    const COVER_CACHE_KEY = 'anime_vault_covers_v1';
+    let coversCache = {};
+    try {
+      const saved = localStorage.getItem(COVER_CACHE_KEY);
+      if (saved) coversCache = JSON.parse(saved);
+    } catch (e) {}
+
+    function saveCoverCache() {
+      try {
+        localStorage.setItem(COVER_CACHE_KEY, JSON.stringify(coversCache));
+      } catch (e) {}
+    }
+
+    // Observador para lazy loading de carátulas
+    const imageObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const card = entry.target;
+          const animeName = card.dataset.name;
+          loadCoverForCard(card, animeName);
+          imageObserver.unobserve(card);
+        }
+      });
+    }, { rootMargin: '120px' });
+
+    // AniList GraphQL query para obtener el póster oficial
+    const ANILIST_QUERY = `
+      query ($search: String) {
+        Media (search: $search, type: ANIME) {
+          coverImage {
+            large
+            medium
+          }
+        }
+      }
+    `;
+
+    async function fetchCoverFromAniList(title) {
+      const cleanTitle = title
+        .replace(/\(.*?\)/g, '')
+        .replace(/\[.*?\]/g, '')
+        .replace(/[✓✔]/g, '')
+        .replace(/TODAS/gi, '')
+        .replace(/PART \d+/gi, '')
+        .trim();
+
+      try {
+        const response = await fetch('https://graphql.anilist.co', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({
+            query: ANILIST_QUERY,
+            variables: { search: cleanTitle || title }
+          })
+        });
+
+        if (!response.ok) return null;
+        const result = await response.json();
+        if (result.data && result.data.Media && result.data.Media.coverImage) {
+          return result.data.Media.coverImage.large || result.data.Media.coverImage.medium;
+        }
+      } catch (err) {}
+      return null;
+    }
+
+    async function loadCoverForCard(cardElement, animeName) {
+      const img = cardElement.querySelector('.card-thumb');
+      const placeholder = cardElement.querySelector('.thumb-placeholder');
+      if (!img) return;
+
+      const upper = animeName.toUpperCase();
+      if (coversCache[upper]) {
+        img.src = coversCache[upper];
+        img.onload = () => {
+          img.classList.add('loaded');
+          if (placeholder) placeholder.style.display = 'none';
+        };
+        return;
+      }
+
+      // Buscar en AniList
+      const coverUrl = await fetchCoverFromAniList(animeName);
+      if (coverUrl) {
+        coversCache[upper] = coverUrl;
+        saveCoverCache();
+        img.src = coverUrl;
+        img.onload = () => {
+          img.classList.add('loaded');
+          if (placeholder) placeholder.style.display = 'none';
+        };
+      }
+    }
+
+    function updateStats() {
+      const totalVistos = vistosList.length;
+      const totalNoVistos = noVistosList.length;
+      const totalNuevas = nuevasList.length;
+      const totalTotal = totalVistos + totalNoVistos;
+
+      document.getElementById('statTotal').innerText = totalTotal;
+      document.getElementById('statVisto').innerText = totalVistos;
+      document.getElementById('statNoVisto').innerText = totalNoVistos;
+      document.getElementById('statNuevas').innerText = totalNuevas;
+
+      document.getElementById('tabCountVisto').innerText = totalVistos;
+      document.getElementById('tabCountNoVisto').innerText = totalNoVistos;
+      document.getElementById('tabCountNuevas').innerText = totalNuevas;
+      document.getElementById('tabCountTodos').innerText = totalTotal;
+
+      const percent = totalTotal > 0 ? Math.round((totalVistos / totalTotal) * 100) : 0;
+      document.getElementById('progressText').innerText = `${percent}% Completado`;
+      document.getElementById('progressFill').style.width = `${percent}%`;
+    }
+
+    function getFilteredList() {
+      let list = [];
+      if (currentTab === 'no_visto') {
+        list = noVistosList.map(name => ({ name, status: 'no_visto' }));
+      } else if (currentTab === 'visto') {
+        list = vistosList.map(name => ({ name, status: 'visto' }));
+      } else if (currentTab === 'nuevas') {
+        list = nuevasList.map(name => ({ 
+          name, 
+          status: vistosList.includes(name) ? 'visto' : 'no_visto' 
+        }));
+      } else if (currentTab === 'todos') {
+        const allMap = new Map();
+        vistosList.forEach(name => allMap.set(name, { name, status: 'visto' }));
+        noVistosList.forEach(name => {
+          if (!allMap.has(name)) allMap.set(name, { name, status: 'no_visto' });
+        });
+        list = Array.from(allMap.values());
+      }
+
+      // Filtro de búsqueda
+      if (currentSearch.trim()) {
+        const term = currentSearch.trim().toUpperCase();
+        list = list.filter(item => item.name.toUpperCase().includes(term));
+      }
+
+      // Ordenación
+      list.sort((a, b) => {
+        if (currentSort === 'az') return a.name.localeCompare(b.name);
+        return b.name.localeCompare(a.name);
+      });
+
+      return list;
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('animeGrid');
+      const items = getFilteredList();
+
+      document.getElementById('resultsCount').innerText = `${items.length} animes`;
+
+      if (items.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">📂</div>
+            <h3>No se encontraron animes</h3>
+            <p>No hay animes que coincidan con "${currentSearch}" en esta sección.</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = items.map(item => {
+        const isVisto = item.status === 'visto';
+        const hasNewSeason = nuevasSet.has(item.name.toUpperCase());
+        const initial = item.name.charAt(0) || '🎌';
+
+        return `
+          <article class="anime-card status-${item.status}" data-name="${item.name}">
+            <div class="card-thumb-wrapper">
+              <img class="card-thumb" alt="${item.name}">
+              <div class="thumb-placeholder">
+                <span>${initial}</span>
+              </div>
+            </div>
+
+            <div class="card-details">
+              <div>
+                <h3 class="card-title" title="${item.name}">${item.name}</h3>
+                <div class="card-badges">
+                  ${isVisto 
+                    ? '<span class="badge badge-visto">✓ VISTO</span>' 
+                    : '<span class="badge badge-no-visto">🎯 POR VER</span>'
+                  }
+                  ${hasNewSeason 
+                    ? '<span class="badge badge-nueva-temp">🔥 NUEVA TEMPORADA</span>' 
+                    : ''
+                  }
+                </div>
+              </div>
+
+              <div class="card-actions">
+                ${!isVisto ? `
+                  <button class="btn-mark-visto" onclick="marcarComoVisto('${item.name.replace(/'/g, "\\\'")}', this)">
+                    <span>✓</span> Marcar Visto
+                  </button>
+                ` : `
+                  <span class="badge-completed-tag">Completado ✅</span>
+                `}
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      document.querySelectorAll('.anime-card').forEach(card => {
+        imageObserver.observe(card);
+      });
+    }
+
+    function showToast(title, desc, isError = false) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `
+        <div class="toast-icon">${isError ? '⚠️' : '✅'}</div>
+        <div class="toast-content">
+          <div class="toast-title">${title}</div>
+          <div class="toast-desc">${desc}</div>
+        </div>
+      `;
+      container.appendChild(toast);
+
+      requestAnimationFrame(() => toast.classList.add('show'));
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400);
+      }, 4000);
+    }
+
+    async function marcarComoVisto(animeName, buttonEl) {
+      if (buttonEl) {
+        buttonEl.classList.add('loading');
+        buttonEl.innerHTML = '<span>⏳</span> Guardando...';
+      }
+
+      // Actualizar estado local inmediatamente
+      const indexNoVisto = noVistosList.indexOf(animeName);
+      if (indexNoVisto !== -1) {
+        noVistosList.splice(indexNoVisto, 1);
+      }
+      if (!vistosList.includes(animeName)) {
+        vistosList.push(animeName);
+      }
+
+      updateStats();
+      renderGrid();
+
+      // Sincronizar en Google Sheets
+      try {
+        const response = await fetch('/api/move-to-visto', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ anime: animeName })
+        });
+
+        if (response.ok) {
+          showToast('¡Anime Completado!', `"${animeName}" se movió a VISTO y se guardó en Google Sheets.`);
+        } else {
+          fallbackGoogleAppsScript(animeName);
+        }
+      } catch (err) {
+        fallbackGoogleAppsScript(animeName);
+      }
+    }
+
+    async function fallbackGoogleAppsScript(animeName) {
+      try {
+        await fetch(WEBAPP_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'moveToVisto', anime: animeName })
+        });
+        showToast('¡Guardado en Sheets!', `"${animeName}" sincronizado con éxito en tu Google Sheet.`);
+      } catch (e) {
+        showToast('Guardado Local', `"${animeName}" guardado localmente. Revisa tu conexión.`, true);
+      }
+    }
+
+    // ========================================================
+    // SINCRONIZACIÓN DIRECTA DESDE GOOGLE SHEETS (BYPASS TOTAL)
+    // ========================================================
+    function syncDirectlyFromGoogleSheets() {
+      return new Promise((resolve, reject) => {
+        const callbackName = 'googleSheetCallback_' + Math.floor(Math.random() * 1000000);
+        const script = document.createElement('script');
+        const timestamp = Date.now();
+        const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=responseHandler:${callbackName}&gid=0&_t=${timestamp}`;
+
+        window[callbackName] = function(response) {
+          delete window[callbackName];
+          if (script.parentNode) document.body.removeChild(script);
+
+          if (!response || !response.table || !response.table.rows) {
+            reject(new Error('Respuesta no válida de Google Sheets'));
+            return;
+          }
+
+          const rows = response.table.rows;
+          const newVistos = [];
+          const newNoVistos = [];
+          const newNuevas = [];
+
+          // Fila 0 es el encabezado VISTO, NO VISTO, NUEVAS TEMPORADAS
+          for (let i = 1; i < rows.length; i++) {
+            const c = rows[i].c;
+            if (!c) continue;
+            const v = c[0] && c[0].v ? String(c[0].v).trim().toUpperCase() : '';
+            const nv = c[1] && c[1].v ? String(c[1].v).trim().toUpperCase() : '';
+            const nt = c[2] && c[2].v ? String(c[2].v).trim().toUpperCase() : '';
+
+            if (v && !newVistos.includes(v)) newVistos.push(v);
+            if (nv && !newNoVistos.includes(nv)) newNoVistos.push(nv);
+            if (nt && !newNuevas.includes(nt)) newNuevas.push(nt);
+          }
+
+          resolve({
+            vistos: newVistos,
+            no_vistos: newNoVistos,
+            nuevas: newNuevas
+          });
+        };
+
+        script.onerror = function() {
+          delete window[callbackName];
+          if (script.parentNode) document.body.removeChild(script);
+          reject(new Error('No se pudo conectar a Google Sheets'));
+        };
+
+        script.src = url;
+        document.body.appendChild(script);
+      });
+    }
+
+    // ==========================================
+    // RULETA DE ANIME AL AZAR (RANDOM PICKER)
+    // ==========================================
+    let rouletteChosenAnime = null;
+    let rouletteInterval = null;
+
+    function openRoulette() {
+      if (noVistosList.length === 0) {
+        showToast('¡Todo Visto!', 'No tienes animes pendientes en tu lista Por Ver.', true);
+        return;
+      }
+
+      const modal = document.getElementById('rouletteModal');
+      const nameEl = document.getElementById('rouletteAnimeName');
+      const posterEl = document.getElementById('roulettePoster');
+      const fallbackEl = document.getElementById('roulettePosterFallback');
+      const btnVisto = document.getElementById('btnRouletteMarcarVisto');
+
+      btnVisto.style.display = 'none';
+      posterEl.style.display = 'none';
+      fallbackEl.style.display = 'flex';
+      fallbackEl.innerText = '🎲';
+
+      modal.classList.add('active');
+      spinRoulette();
+    }
+
+    function closeRoulette() {
+      const modal = document.getElementById('rouletteModal');
+      modal.classList.remove('active');
+      if (rouletteInterval) clearInterval(rouletteInterval);
+    }
+
+    function spinRoulette() {
+      const nameEl = document.getElementById('rouletteAnimeName');
+      const posterEl = document.getElementById('roulettePoster');
+      const fallbackEl = document.getElementById('roulettePosterFallback');
+      const btnVisto = document.getElementById('btnRouletteMarcarVisto');
+
+      btnVisto.style.display = 'none';
+      posterEl.style.display = 'none';
+      fallbackEl.style.display = 'flex';
+      nameEl.classList.add('spinning');
+
+      let spins = 0;
+      const totalSpins = 25;
+      const speed = 70; // ms
+
+      if (rouletteInterval) clearInterval(rouletteInterval);
+
+      rouletteInterval = setInterval(() => {
+        spins++;
+        const randomIndex = Math.floor(Math.random() * noVistosList.length);
+        const candidate = noVistosList[randomIndex];
+        nameEl.innerText = candidate;
+
+        if (spins >= totalSpins) {
+          clearInterval(rouletteInterval);
+          rouletteChosenAnime = candidate;
+          finalizeRouletteChoice(candidate);
+        }
+      }, speed);
+    }
+
+    async function finalizeRouletteChoice(animeName) {
+      const nameEl = document.getElementById('rouletteAnimeName');
+      const posterEl = document.getElementById('roulettePoster');
+      const fallbackEl = document.getElementById('roulettePosterFallback');
+      const btnVisto = document.getElementById('btnRouletteMarcarVisto');
+
+      nameEl.classList.remove('spinning');
+      nameEl.innerText = animeName;
+      btnVisto.style.display = 'inline-flex';
+
+      const upper = animeName.toUpperCase();
+      let coverUrl = coversCache[upper];
+
+      if (!coverUrl) {
+        coverUrl = await fetchCoverFromAniList(animeName);
+        if (coverUrl) {
+          coversCache[upper] = coverUrl;
+          saveCoverCache();
+        }
+      }
+
+      if (coverUrl) {
+        posterEl.src = coverUrl;
+        posterEl.style.display = 'block';
+        fallbackEl.style.display = 'none';
+      } else {
+        posterEl.style.display = 'none';
+        fallbackEl.style.display = 'flex';
+        fallbackEl.innerText = '🎌';
+      }
+    }
+
+    // Event Listeners
+    document.addEventListener('DOMContentLoaded', () => {
+      updateStats();
+      renderGrid();
+
+      // Ruleta
+      document.getElementById('btnOpenRoulette').addEventListener('click', openRoulette);
+      document.getElementById('btnCloseModal').addEventListener('click', closeRoulette);
+      document.getElementById('btnRouletteReroll').addEventListener('click', spinRoulette);
+      document.getElementById('rouletteModal').addEventListener('click', (e) => {
+        if (e.target.id === 'rouletteModal') closeRoulette();
+      });
+
+      document.getElementById('btnRouletteMarcarVisto').addEventListener('click', () => {
+        if (rouletteChosenAnime) {
+          marcarComoVisto(rouletteChosenAnime, document.getElementById('btnRouletteMarcarVisto'));
+          closeRoulette();
+        }
+      });
+
+      // Tabs
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          const target = e.currentTarget;
+          target.classList.add('active');
+          currentTab = target.dataset.tab;
+          renderGrid();
+        });
+      });
+
+      // Buscador
+      const searchInput = document.getElementById('searchInput');
+      searchInput.addEventListener('input', (e) => {
+        currentSearch = e.target.value;
+        renderGrid();
+      });
+
+      // Atajo de teclado '/' para enfocar el buscador
+      document.addEventListener('keydown', (e) => {
+        if (e.key === '/' && document.activeElement !== searchInput) {
+          e.preventDefault();
+          searchInput.focus();
+        }
+        if (e.key === 'Escape') {
+          closeRoulette();
+        }
+      });
+
+      // Ordenación
+      document.getElementById('sortSelect').addEventListener('change', (e) => {
+        currentSort = e.target.value;
+        renderGrid();
+      });
+
+      // Botón Sincronizar Sheets con DOBLE MOTOR (Directo de Sheets + Servidor Local)
+      document.getElementById('btnRefresh').addEventListener('click', async () => {
+        const btn = document.getElementById('btnRefresh');
+        btn.innerHTML = '<span>⏳</span> Conectando...';
+        btn.style.opacity = '0.7';
+
+        let directSuccess = false;
+
+        // 1. Intentar sincronización directa con Google Sheets desde el navegador
+        try {
+          const freshData = await syncDirectlyFromGoogleSheets();
+          if (freshData && freshData.no_vistos) {
+            vistosList = freshData.vistos;
+            noVistosList = freshData.no_vistos;
+            nuevasList = freshData.nuevas;
+            nuevasSet = new Set(nuevasList.map(item => item.toUpperCase()));
+
+            updateStats();
+            renderGrid();
+            directSuccess = true;
+            showToast('¡Sincronizado!', `${noVistosList.length} animes por ver cargados en vivo.`);
+          }
+        } catch (err) {
+          console.warn('Sync directo falló, probando servidor Python...', err);
+        }
+
+        // 2. Notificar al servidor Python si está activo para que actualice el archivo en disco
+        try {
+          const res = await fetch('/api/sync');
+          if (res.ok && !directSuccess) {
+            const data = await res.json();
+            if (data.vistos) vistosList = data.vistos;
+            if (data.no_vistos) noVistosList = data.no_vistos;
+            if (data.nuevas) nuevasList = data.nuevas;
+            nuevasSet = new Set(nuevasList.map(item => item.toUpperCase()));
+            updateStats();
+            renderGrid();
+            showToast('¡Sincronizado!', 'Datos actualizados desde Google Sheets.');
+          }
+        } catch (err) {}
+
+        btn.innerHTML = '<span>🔄</span> Sincronizar Sheets';
+        btn.style.opacity = '1';
+      });
+    });
+  </script>
+</body>
+</html>
